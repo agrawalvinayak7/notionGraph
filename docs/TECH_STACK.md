@@ -15,10 +15,10 @@ Legend: 🟢 already on resume · 🟡 new (learning goal)
 
 | Tech | Role | Why |
 |------|------|-----|
-| 🟢 **Next.js 14 (App Router)** | Framework | Already your strongest tool. App Router gives us server components, route handlers for the Notion API, and clean server/client separation. |
-| 🟢 **TypeScript** | Language | Type safety across the node/edge data model is essential for a graph app. |
-| 🟢 **Tailwind CSS** | Styling | Fast, consistent styling; pairs with Shadcn. |
-| 🟢 **Shadcn UI** | Component library | Accessible, unstyled-but-themeable primitives (dialogs, command palette, side panel, tooltips). |
+| 🟢 **Next.js 16 (App Router)** | Framework | Already your strongest tool. App Router gives us server components, route handlers for the Notion API, and clean server/client separation. Scaffolded with Turbopack. *(Note: latest is v16, not v14 — v16 has some breaking changes; see `node_modules/next/dist/docs/` and `AGENTS.md`.)* |
+| 🟢 **TypeScript** | Language | Type safety across the node/edge data model is essential for a graph app. `strict` mode on. |
+| 🟢 **Tailwind CSS v4** | Styling | Fast, consistent styling; pairs with Shadcn. **v4 is CSS-first** — design tokens live in `src/app/globals.css` under `@theme`/`:root`/`.dark`, *not* in a `tailwind.config.ts`. |
+| 🟢 **Shadcn UI** | Component library | Accessible, themeable primitives. *(This shadcn build is on **Base UI**, not Radix — use the `render` prop or `buttonVariants` for links, not `asChild`.)* |
 | 🟢 **Framer Motion** | Animation | Page transitions, panel slides, micro-interactions. The graph itself is canvas-rendered, but the UI *around* it should feel alive. |
 | 🟡 **react-force-graph** | **Graph rendering (hero)** | See section 2 — this is the core new skill. |
 

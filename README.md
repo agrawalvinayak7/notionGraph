@@ -18,6 +18,7 @@ Read these in order. Every agent/contributor must read **RULES.md** and **Tracke
 |-----|---------|
 | [docs/PRD.md](docs/PRD.md) | Problem statement, core features, success criteria |
 | [docs/TECH_STACK.md](docs/TECH_STACK.md) | Every technology we use and *why* |
+| [docs/SCHEMA.md](docs/SCHEMA.md) | Database schema, relations, Notion→edge mapping, RLS, render contract |
 | [docs/DESIGN.md](docs/DESIGN.md) | Typography, fonts, colors, visual language |
 | [docs/USER_FLOW.md](docs/USER_FLOW.md) | End-to-end user journeys |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Step-by-step build plan, phase by phase |
@@ -28,7 +29,7 @@ Read these in order. Every agent/contributor must read **RULES.md** and **Tracke
 
 ## TL;DR Stack
 
-- **Frontend:** Next.js 14 (App Router) · TypeScript · Tailwind CSS · Shadcn UI · Framer Motion
+- **Frontend:** Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · Shadcn UI · Framer Motion
 - **Graph engine:** react-force-graph (d3-force layout, Canvas/WebGL)
 - **Auth:** Clerk
 - **Database:** Supabase (Postgres + pgvector)
@@ -36,6 +37,18 @@ Read these in order. Every agent/contributor must read **RULES.md** and **Tracke
 - **Background sync:** Trigger.dev
 - **Hosting:** Vercel
 
+## Getting started (local dev)
+
+```bash
+npm install
+npm run dev      # http://localhost:3000
+```
+
+Other scripts: `npm run build` (production build + type-check), `npm run lint`,
+`npm run format`.
+
 ## Status
 
-🚧 Pre-development — planning docs complete. See [Tracker.md](Tracker.md) for live status.
+🚧 In development — **Phase 1 (Foundation) underway.** App scaffolded, design system
+wired, landing + app screens built. Auth (Clerk) is the next step. See
+[Tracker.md](Tracker.md) for live status.

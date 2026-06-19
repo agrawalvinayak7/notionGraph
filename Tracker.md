@@ -5,7 +5,7 @@
 > verified). Date every change (`YYYY-MM-DD`). Newest completions at the top of Complete.
 > If you finished work and didn't touch this file, you are not done.
 
-**Last updated:** 2026-06-19 · **Current phase:** Phase 0 — Planning
+**Last updated:** 2026-06-19 · **Current phase:** Phase 1 — Foundation & Auth
 
 Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 Must · 🟡 Should · 🟢 Could
 
@@ -14,16 +14,11 @@ Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 ## 🟦 To-Do
 
 ### Phase 1 — Foundation & Auth
-- 🔴 `[P1]` Scaffold Next.js 14 (App Router) + TypeScript + Tailwind + Shadcn UI project
-- 🔴 `[P1]` Configure ESLint + Prettier + strict TS + path aliases
-- 🔴 `[P1]` Add design tokens from `DESIGN.md` to `globals.css` + `tailwind.config.ts`
-- 🔴 `[P1]` Load Geist Sans / Geist Mono via `next/font`; set dark theme default
-- 🔴 `[P1]` Integrate Clerk (sign-in/up, middleware, protected routes)
-- 🔴 `[P1]` Clerk → Supabase `users` sync via webhook
-- 🔴 `[P1]` Build landing page shell + `/connect`, `/graph`, `/settings` route stubs
+- 🔴 `[P1]` Clerk → Supabase `users` sync (webhook or first-login upsert) — *needs Clerk + Supabase keys*
 
 ### Phase 2 — Supabase & Data Model
 - 🔴 `[P2]` Create Supabase project; set env vars
+- 🔴 `[P2]` Implement schema per `docs/SCHEMA.md` (keep doc + migration in sync)
 - 🔴 `[P2]` Migration: `users`, `notion_connections`, `nodes`, `edges`, `sync_runs`
 - 🔴 `[P2]` Enable + write RLS policies for every user-owned table
 - 🔴 `[P2]` RLS isolation tests (user A cannot read user B)
@@ -76,13 +71,25 @@ Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 ---
 
 ## 🟨 In Progress
-_(nothing yet — pick the top 🔴 item from To-Do, move it here, and add your name/date)_
+- 🔴 `[P1]` Integrate Clerk (sign-in/up, middleware, protected `(app)` routes) — **BLOCKED:
+  waiting on Clerk API keys.** Scaffolding ready; next step once keys are in `.env.local`.
 
 ---
 
 ## 🟩 Complete
 
 ### 2026-06-19
+- ✅ `[P1]` Built landing page (hero + animated constellation + how-it-works) and app screens:
+  `/connect`, `/graph`, `/settings` — all styled to the design system. Build + lint green.
+- ✅ `[P1]` Design system wired in `globals.css` (Tailwind v4 `@theme`, dark default, full
+  palette + graph node colors, glow/observatory utilities, entrance animations).
+- ✅ `[P1]` Fonts: Geist Sans/Mono + Instrument Serif via `next/font`.
+- ✅ `[P1]` Tooling: ESLint, Prettier (+ tailwind plugin), strict TS, `@/*` alias, format scripts.
+- ✅ `[P1]` shadcn/ui initialized + core components (button, card, badge, separator, tooltip,
+  sonner, skeleton, input, dropdown-menu); Tooltip + Toaster providers in root layout.
+- ✅ `[P1]` Scaffolded **Next.js 16** + TypeScript + Tailwind v4 (note: latest is v16/v4, not
+  the v14/v3 our plan assumed — docs updated to match).
+- ✅ `[P0]` `docs/SCHEMA.md` authored — tables, ER diagram, Notion→edge mapping, RLS, `GraphData` contract.
 - ✅ `[P0]` Planning docs authored: `README`, `PRD`, `TECH_STACK`, `DESIGN`, `USER_FLOW`,
   `ROADMAP`, `RULES`, `Tracker` — stack & scope locked (Notion API · Clerk · Supabase ·
   Trigger.dev · react-force-graph).

@@ -21,10 +21,11 @@ depends on the previous. The live status of every step lives in `Tracker.md`.
 **Goal:** A deployable Next.js app where a user can sign in, with the design system wired up.
 
 **Steps**
-1. Scaffold **Next.js 14 (App Router)** + **TypeScript (strict)** + **Tailwind** + **Shadcn UI**.
+1. Scaffold **Next.js 16 (App Router)** + **TypeScript (strict)** + **Tailwind v4** + **Shadcn UI**.
 2. Tooling: ESLint + Prettier, path aliases (`@/`), `.env.example`.
-3. Wire the **design system**: copy tokens from `DESIGN.md` into `globals.css` and
-   `tailwind.config.ts`; load **Geist Sans/Mono** via `next/font`; default to **dark theme**.
+3. Wire the **design system**: define tokens from `DESIGN.md` in `globals.css` (Tailwind v4
+   `@theme`/`:root`/`.dark` — no `tailwind.config.ts`); load **Geist Sans/Mono +
+   Instrument Serif** via `next/font`; default to **dark theme**.
 4. Build route skeleton: `(marketing)/` landing, `(app)/graph`, `(app)/settings`, `/connect`.
 5. Integrate **Clerk**: `<ClerkProvider>`, sign-in/up routes, middleware protecting `(app)` routes.
 6. **Clerk → Supabase users sync**: webhook (or first-login upsert) creating a `users` row keyed

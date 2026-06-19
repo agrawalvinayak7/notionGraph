@@ -10,9 +10,9 @@
 1. **`Tracker.md`** — the live build tracker. **You MUST update it** (see §1). Non-negotiable.
 2. **This file (`RULES.md`)** — the rules. Re-read it at the start of each work session.
 
-Also treat as source of truth: `docs/PRD.md`, `docs/TECH_STACK.md`, `docs/DESIGN.md`,
-`docs/USER_FLOW.md`, `docs/ROADMAP.md`. **Do not contradict them.** If reality forces a
-change, update the doc *and* note it in your summary.
+Also treat as source of truth: `docs/PRD.md`, `docs/TECH_STACK.md`, `docs/SCHEMA.md`,
+`docs/DESIGN.md`, `docs/USER_FLOW.md`, `docs/ROADMAP.md`. **Do not contradict them.** If
+reality forces a change, update the doc *and* note it in your summary.
 
 ---
 
@@ -34,7 +34,7 @@ You must keep it current **without being asked**:
 
 ## 2. Tech Stack Boundaries (do not improvise)
 Use **only** the technologies in `docs/TECH_STACK.md`:
-- Next.js 14 (App Router) · TypeScript · Tailwind · Shadcn UI · Framer Motion
+- Next.js 16 (App Router) · TypeScript · Tailwind v4 (CSS-first) · Shadcn UI (Base UI) · Framer Motion
 - react-force-graph (graph) · Clerk (auth) · Supabase/Postgres (db) · Notion API (data)
 - Trigger.dev (jobs) · Vercel (host) · Zod, TanStack Query, Vitest/Playwright
 

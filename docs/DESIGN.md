@@ -154,30 +154,38 @@ Graph palette stays the same hues but with slightly reduced glow on light bg.
 
 ---
 
-## 8. Design Tokens (starter — `globals.css`)
+## 8. Design Tokens — IMPLEMENTED in `src/app/globals.css`
+
+> **Tailwind v4 note:** we use Tailwind v4, which is **CSS-first**. There is no
+> `tailwind.config.ts`. Tokens are defined as CSS variables under `:root` (light) and
+> `.dark` (dark, the default), and exposed to Tailwind utilities via the `@theme inline`
+> block. So `bg-surface`, `text-muted-foreground`, `text-node-page`, `border-border`,
+> etc. all "just work". Dark mode is class-based: `<html>` has `class="dark"`.
+
+The live token set (see the actual file for the full list) maps our palette onto shadcn's
+semantic names plus our extras:
+
 ```css
-:root[data-theme="dark"] {
-  --bg: #0A0B0F;
-  --surface: #13151C;
-  --surface-2: #1A1D26;
-  --border: #262A36;
-  --text: #ECEDF1;
-  --text-muted: #9AA1AE;
-  --text-faint: #5E6470;
-  --primary: #6366F1;
-  --primary-hover: #7C7FF2;
-  --accent: #22D3EE;
-  --success: #34D399;
-  --warning: #FBBF24;
-  --danger: #F87171;
-  /* graph */
-  --node-page: #818CF8;
-  --node-database: #22D3EE;
-  --node-row: #34D399;
-  --node-tag: #FBBF24;
-  --node-orphan: #64748B;
-  --edge: rgba(154,161,174,0.18);
+@theme inline {
+  /* shadcn semantic → utilities: bg-background, text-foreground, bg-primary, ... */
+  --color-primary: var(--primary);        /* indigo #6366F1 in dark */
+  --color-surface: var(--card);           /* #13151C */
+  --color-cyan: var(--cyan);              /* #22D3EE brand accent */
+  --color-success: var(--success);
+  /* graph palette → bg-node-page, fill-node-database, ... */
+  --color-node-page: var(--node-page);    /* #818CF8 */
+  --color-node-database: var(--node-database);
+  --color-edge: var(--edge);
+}
+.dark {
+  --background: #0a0b0f;  --foreground: #ecedf1;
+  --card: #13151c;        --primary: #6366f1;  --secondary: #1a1d26;
+  --muted-foreground: #9aa1ae;  --border: #262a36;  --ring: #6366f1;
+  /* ...full set in the file... */
 }
 ```
-> Mirror these into `tailwind.config.ts` `theme.extend.colors` so classes like
-> `bg-surface`, `text-muted`, `border-border` work everywhere.
+
+**Custom utilities** also live in `globals.css`: `.glow-primary`, `.glow-cyan`,
+`.bg-observatory` (radial hero glow), `.bg-grid` (dotted texture), `.text-gradient`, and
+the entrance animations `.animate-rise` / `.animate-fade` / `.animate-float` (all respect
+`prefers-reduced-motion`).
