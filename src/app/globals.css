@@ -1,0 +1,283 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  NotionGraph design tokens — see docs/DESIGN.md
+  Dark is the default theme (html has class="dark"). :root holds the light theme.
+*/
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument-serif);
+  --font-heading: var(--font-geist-sans);
+
+  /* shadcn semantic tokens */
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* NotionGraph brand + semantic extras */
+  --color-surface: var(--card);
+  --color-surface-2: var(--secondary);
+  --color-brand: var(--primary);
+  --color-cyan: var(--cyan);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+
+  /* Graph node + edge palette */
+  --color-node-page: var(--node-page);
+  --color-node-database: var(--node-database);
+  --color-node-row: var(--node-row);
+  --color-node-tag: var(--node-tag);
+  --color-node-orphan: var(--node-orphan);
+  --color-node-highlight: var(--node-highlight);
+  --color-node-semantic: var(--node-semantic);
+  --color-edge: var(--edge);
+
+  /* sidebar */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* charts (reuse graph palette) */
+  --color-chart-1: var(--node-page);
+  --color-chart-2: var(--node-database);
+  --color-chart-3: var(--node-row);
+  --color-chart-4: var(--node-tag);
+  --color-chart-5: var(--node-semantic);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ---------- Light theme (secondary) ---------- */
+:root {
+  --radius: 0.75rem;
+
+  --background: #fafafb;
+  --foreground: #15171c;
+  --card: #ffffff;
+  --card-foreground: #15171c;
+  --popover: #ffffff;
+  --popover-foreground: #15171c;
+  --primary: #5457e5;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f2f4;
+  --secondary-foreground: #15171c;
+  --muted: #f1f2f4;
+  --muted-foreground: #5e6470;
+  --accent: #f1f2f4;
+  --accent-foreground: #15171c;
+  --destructive: #e5484d;
+  --border: #e6e8ec;
+  --input: #e6e8ec;
+  --ring: #5457e5;
+
+  --sidebar: #ffffff;
+  --sidebar-foreground: #15171c;
+  --sidebar-primary: #5457e5;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f2f4;
+  --sidebar-accent-foreground: #15171c;
+  --sidebar-border: #e6e8ec;
+  --sidebar-ring: #5457e5;
+
+  /* brand + semantic (shared) */
+  --cyan: #22d3ee;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --info: #38bdf8;
+
+  /* graph palette (shared across themes) */
+  --node-page: #818cf8;
+  --node-database: #22d3ee;
+  --node-row: #34d399;
+  --node-tag: #fbbf24;
+  --node-orphan: #64748b;
+  --node-highlight: #ffffff;
+  --node-semantic: #a78bfa;
+  --edge: rgba(154, 161, 174, 0.18);
+}
+
+/* ---------- Dark theme (default) ---------- */
+.dark {
+  --background: #0a0b0f;
+  --foreground: #ecedf1;
+  --card: #13151c;
+  --card-foreground: #ecedf1;
+  --popover: #13151c;
+  --popover-foreground: #ecedf1;
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  --secondary: #1a1d26;
+  --secondary-foreground: #ecedf1;
+  --muted: #1a1d26;
+  --muted-foreground: #9aa1ae;
+  --accent: #1a1d26;
+  --accent-foreground: #ecedf1;
+  --destructive: #f87171;
+  --border: #262a36;
+  --input: #262a36;
+  --ring: #6366f1;
+
+  --sidebar: #13151c;
+  --sidebar-foreground: #ecedf1;
+  --sidebar-primary: #6366f1;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a1d26;
+  --sidebar-accent-foreground: #ecedf1;
+  --sidebar-border: #262a36;
+  --sidebar-ring: #6366f1;
+
+  --edge: rgba(154, 161, 174, 0.18);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+@layer utilities {
+  /* Soft glow for graph nodes and primary CTAs (DESIGN.md §3) */
+  .glow-primary {
+    box-shadow: 0 0 24px rgba(99, 102, 241, 0.35);
+  }
+  .glow-cyan {
+    box-shadow: 0 0 24px rgba(34, 211, 238, 0.3);
+  }
+  /* The "observatory" backdrop: faint radial light behind the graph/hero */
+  .bg-observatory {
+    background:
+      radial-gradient(
+        ellipse 80% 60% at 50% -10%,
+        rgba(99, 102, 241, 0.12),
+        transparent 70%
+      ),
+      var(--background);
+  }
+  /* Subtle dotted grid texture for atmosphere */
+  .bg-grid {
+    background-image: radial-gradient(
+      rgba(154, 161, 174, 0.08) 1px,
+      transparent 1px
+    );
+    background-size: 28px 28px;
+  }
+  .text-gradient {
+    background: linear-gradient(180deg, var(--foreground), #9aa1ae);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* ---------- Motion: orchestrated page-load reveals ---------- */
+@keyframes ng-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes ng-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes ng-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+@keyframes ng-draw {
+  from {
+    stroke-dashoffset: 200;
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+@keyframes ng-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@layer utilities {
+  .animate-rise {
+    opacity: 0;
+    animation: ng-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .animate-fade {
+    opacity: 0;
+    animation: ng-fade 0.9s ease forwards;
+  }
+  .animate-float {
+    animation: ng-float 6s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-fade,
+  .animate-float,
+  .animate-rise * {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
