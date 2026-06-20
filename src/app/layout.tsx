@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
@@ -33,14 +35,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`dark ${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
+    <ClerkProvider
+      appearance={{
+        theme: dark,
+        variables: {
+          colorPrimary: "#6366f1",
+          colorBackground: "#13151c",
+          borderRadius: "0.6rem",
+        },
+      }}
     >
-      <body className="flex min-h-full flex-col">
-        <TooltipProvider>{children}</TooltipProvider>
-        <Toaster />
-      </body>
-    </html>
+      <html
+        lang="en"
+        className={`dark ${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
+      >
+        <body className="flex min-h-full flex-col">
+          <TooltipProvider>{children}</TooltipProvider>
+          <Toaster />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

@@ -10,6 +10,7 @@ An Obsidian-style interactive knowledge graph for Notion. Read these BEFORE writ
 - **Next.js 16** (App Router, Turbopack) — has breaking changes; see `AGENTS.md` and `node_modules/next/dist/docs/`.
 - **Tailwind v4** — CSS-first. Tokens live in `src/app/globals.css` (`@theme`/`:root`/`.dark`). No `tailwind.config.ts`.
 - **shadcn/ui on Base UI** (not Radix) — for link-buttons use `buttonVariants`, not `asChild`.
+- **Clerk v7**: no `<SignedIn>/<SignedOut>` components — check auth in server components with `await auth()` from `@clerk/nextjs/server`. The proxy/gatekeeper lives in `src/proxy.ts` (Next 16 renamed `middleware` → `proxy`). `<ClerkProvider>` appearance uses `theme:` (from `@clerk/themes`), not `baseTheme:`.
 - Dark theme is default (`<html class="dark">`). Use design tokens (`bg-surface`, `text-node-page`, …), never raw hex.
 
 ## Commands

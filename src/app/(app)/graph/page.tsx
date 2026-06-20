@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { RefreshCw, Search, Settings } from "lucide-react";
+import { UserButton } from "@clerk/nextjs";
 import { Wordmark } from "@/components/brand/logo";
 import { HeroConstellation } from "@/components/marketing/hero-constellation";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -32,6 +33,9 @@ export default function GraphPage() {
           >
             <Settings className="size-4" />
           </Link>
+          <div className="ml-1.5 flex items-center">
+            <UserButton />
+          </div>
         </div>
       </header>
 

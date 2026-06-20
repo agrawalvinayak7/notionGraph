@@ -17,7 +17,6 @@ Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 - 🔴 `[P1]` Clerk → Supabase `users` sync (webhook or first-login upsert) — *needs Clerk + Supabase keys*
 
 ### Phase 2 — Supabase & Data Model
-- 🔴 `[P2]` Create Supabase project; set env vars
 - 🔴 `[P2]` Implement schema per `docs/SCHEMA.md` (keep doc + migration in sync)
 - 🔴 `[P2]` Migration: `users`, `notion_connections`, `nodes`, `edges`, `sync_runs`
 - 🔴 `[P2]` Enable + write RLS policies for every user-owned table
@@ -71,12 +70,20 @@ Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 ---
 
 ## 🟨 In Progress
-- 🔴 `[P1]` Integrate Clerk (sign-in/up, middleware, protected `(app)` routes) — **BLOCKED:
-  waiting on Clerk API keys.** Scaffolding ready; next step once keys are in `.env.local`.
+- 🔴 `[P2]` Wire Supabase client (browser + server/admin) and Trigger.dev config — next up,
+  keys are in `.env`.
 
 ---
 
 ## 🟩 Complete
+
+### 2026-06-20
+- ✅ `[P1]` **Clerk auth integrated and runtime-verified.** ClerkProvider (dark theme),
+  `proxy.ts` gatekeeper protecting `/graph` `/settings` `/connect`, `/sign-in` + `/sign-up`
+  pages, auth-aware site header + `UserButton`. Smoke test: logged-out `/graph` → 307 to
+  `/sign-in`. Notes for future agents: this Clerk v7 build has **no `<SignedIn>/<SignedOut>`**
+  (use `auth()` from `@clerk/nextjs/server`); Next 16 uses **`proxy.ts`** not `middleware.ts`;
+  appearance uses **`theme:`** not `baseTheme:`.
 
 ### 2026-06-19
 - ✅ `[P1]` Built landing page (hero + animated constellation + how-it-works) and app screens:
