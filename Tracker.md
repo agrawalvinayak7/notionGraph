@@ -13,19 +13,14 @@ Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 
 ## 🟦 To-Do
 
-### Phase 1 — Foundation & Auth
-- 🔴 `[P1]` Clerk → Supabase `users` sync (webhook or first-login upsert) — *needs Clerk + Supabase keys*
-
 ### Phase 2 — Supabase & Data Model
 - 🔴 `[P2]` Write per-user RLS **policies** (currently RLS-on/no-policy = locked) — pairs with
   Clerk ↔ Supabase third-party auth so the browser client can read own rows under RLS
 - 🔴 `[P2]` RLS isolation tests (user A cannot read user B) once policies exist
 
 ### Phase 3 — Notion Connect & Sync Engine
-- 🔴 `[P3]` Register Notion public OAuth integration; set redirect URI
-- 🔴 `[P3]` `/connect` UI + "Authorize with Notion" + privacy copy
-- 🔴 `[P3]` OAuth callback route: code → token → encrypt → store connection
-- 🔴 `[P3]` Notion client wrapper (`lib/notion.ts`) with pagination + Zod validation
+- 🔴 `[P3]` Notion API client wrapper for **fetching** workspace data (paginated: pages,
+  databases, rows, block children) with Zod validation — `lib/notion.ts` currently only does OAuth
 - 🔴 `[P3]` Graph-build logic: pages/databases/rows → `nodes`
 - 🔴 `[P3]` Edge extraction: nesting, `@mentions`, relations → `edges` (target ≥95% coverage)
 - 🔴 `[P3]` Trigger.dev `initial-sync` job (idempotent, rate-limited, retryable)
@@ -67,14 +62,23 @@ Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 ---
 
 ## 🟨 In Progress
-- 🔴 `[P1]` Clerk → Supabase `users` sync (create a `users` row on first authenticated visit) —
-  now unblocked: Clerk live + `users` table live.
+- 🔴 `[P3]` Notion **sync engine**: fetch the connected workspace (pages/databases/rows),
+  build `nodes` + extract `edges`, run it as a Trigger.dev job, write `sync_runs`. Connection
+  storage is done; next is reading the data and populating the graph tables.
 
 ---
 
 ## 🟩 Complete
 
 ### 2026-06-20
+- ✅ `[P3]` **Notion OAuth connect flow** (runtime-smoke-tested). `/api/notion/start` (CSRF
+  state cookie → Notion authorize) + `/api/notion/callback` (verify state → exchange code →
+  encrypt token → store `notion_connections`, one per user). `lib/notion.ts` (authorize URL +
+  Zod-validated token exchange). `/connect` now functional: shows connected workspace or a
+  working "Authorize with Notion" button + error states. Added `zod`.
+- ✅ `[P1]` **Clerk → Supabase user sync** done (first-login upsert). `lib/user.ts`
+  `getOrCreateCurrentUser()` upserts a `users` row by `clerk_user_id`; called from the new
+  `(app)/layout.tsx` so every authed route guarantees the row. `/connect` moved into `(app)`.
 - ✅ `[P2]` **Database schema is LIVE in Supabase.** Dropped the abandoned earlier attempt's 5
   empty tables, created `users`/`notion_connections`/`nodes`/`edges`/`sync_runs` per
   `SCHEMA.md` (UUIDs, checks, unique constraints, indexes), RLS enabled on all (locked, no
