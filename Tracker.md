@@ -5,9 +5,14 @@
 > verified). Date every change (`YYYY-MM-DD`). Newest completions at the top of Complete.
 > If you finished work and didn't touch this file, you are not done.
 
-**Last updated:** 2026-06-19 · **Current phase:** Phase 1 — Foundation & Auth
+**Last updated:** 2026-06-20 · **Current phase:** Phases 1–4 done (core loop works end to
+end). Now in Phase 5 — Search/Filter/Settings polish.
 
-Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 Must · 🟡 Should · 🟢 Could
+Legend: `[P0]`–`[P7]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 Must · 🟡 Should · 🟢 Could
+
+> **Snapshot:** Sign in → connect Notion → sync → explore a solid, interactive graph with
+> minimap — all working against real data. What's left is depth (search/filter, node panel,
+> background sync) and ship (settings actions, tests, deploy).
 
 ---
 
