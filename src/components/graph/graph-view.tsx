@@ -58,7 +58,7 @@ export function GraphView() {
   const isEmpty = !data || data.nodes.length === 0;
 
   return (
-    <div className="bg-observatory relative flex-1 overflow-hidden">
+    <div className="relative flex-1 overflow-hidden bg-[#0b0d12]">
       {isEmpty ? (
         <div className="animate-rise absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
           <Sparkles className="text-primary size-7" />

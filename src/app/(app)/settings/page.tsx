@@ -25,7 +25,7 @@ const SECTIONS = [
 
 export default function SettingsPage() {
   return (
-    <div className="bg-observatory min-h-full px-6 py-12">
+    <div className="bg-background min-h-full px-6 py-12">
       <div className="mx-auto w-full max-w-2xl">
         <Link
           href="/graph"

@@ -25,7 +25,7 @@ const STEPS = [
 
 export default function LandingPage() {
   return (
-    <div className="bg-observatory bg-grid flex min-h-full flex-col">
+    <div className="bg-background flex min-h-full flex-col">
       <SiteHeader />
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-6">
@@ -44,7 +44,7 @@ export default function LandingPage() {
               style={{ animationDelay: "0.15s" }}
             >
               <span className="font-serif text-5xl leading-[1.05] tracking-tight md:text-6xl">
-                See the <span className="text-gradient italic">shape</span> of
+                See the <span className="text-primary italic">shape</span> of
                 your knowledge.
               </span>
             </h1>
@@ -83,7 +83,7 @@ export default function LandingPage() {
             className="animate-fade relative aspect-square w-full"
             style={{ animationDelay: "0.2s" }}
           >
-            <div className="animate-float absolute inset-0">
+            <div className="absolute inset-0">
               <HeroConstellation />
             </div>
           </div>

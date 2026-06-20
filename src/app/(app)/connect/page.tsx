@@ -40,7 +40,7 @@ export default async function ConnectPage({
     : { data: null };
 
   return (
-    <div className="bg-observatory flex min-h-full flex-col items-center justify-center px-6 py-16">
+    <div className="bg-background flex min-h-full flex-col items-center justify-center px-6 py-16">
       <div className="animate-rise border-border bg-surface/80 w-full max-w-md rounded-xl border p-8 shadow-2xl backdrop-blur">
         <LogoMark className="size-8 drop-shadow-[0_0_10px_rgba(99,102,241,0.5)]" />
 

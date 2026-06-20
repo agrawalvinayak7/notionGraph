@@ -1,16 +1,18 @@
 # Design System — NotionGraph
 
-**Last updated:** 2026-06-19
+**Last updated:** 2026-06-20
 
-The product is a **graph you stare at**. The visual language must therefore be calm,
-dark, and focused so that the colorful, glowing graph is the hero. Think "observatory at
-night": a near-black canvas, restrained UI chrome, and luminous nodes.
+The product is a **professional tool you work in**, not a toy. The visual language is
+clean, solid, and dark — like Linear or a serious dev tool. **No gradients, no "galaxy"
+backdrop.** Solid surfaces give the colorful nodes maximum contrast and legibility.
 
 **Design principles**
-1. **The graph is the hero.** UI chrome recedes; the canvas glows.
-2. **Dark-first.** Dark mode is the default and primary experience (light mode is secondary).
-3. **Calm, not flashy.** One accent, generous space, subtle motion.
-4. **Legible at any zoom.** Type and node labels must stay readable from overview to close-up.
+1. **The graph is the hero.** UI chrome recedes; the canvas is a calm solid backdrop.
+2. **Solid over gradient.** Flat, solid backgrounds everywhere (better visibility + a more
+   professional feel). Reserve any glow for hover/focus emphasis only.
+3. **Dark-first.** Dark mode is the default and primary experience (light mode is secondary).
+4. **Calm, not flashy.** Cool palette, one accent, generous space, restrained motion.
+5. **Legible at any zoom.** Type and node labels must stay readable from overview to close-up.
 
 ---
 
@@ -74,20 +76,23 @@ Dark-first palette. All values are also exported as CSS variables / Tailwind tok
 | `info` | `#38BDF8` |
 
 ### 2.4 Graph palette (node categories)
-Curated, high-contrast-on-dark, harmonious together. Nodes glow softly (outer blur) on
-the dark canvas.
+Cool, high-contrast-on-dark. Nodes are rendered as **solid fills** with a thin dark
+outline for crispness — **no resting glow** (glow/ring only on hover). Canvas background is
+a solid `#0b0d12`. As implemented in `graph-canvas.tsx`:
 | Node type | Color | Hex |
 |-----------|-------|-----|
-| Page | Indigo | `#818CF8` |
-| Database | Cyan | `#22D3EE` |
-| Database row | Emerald | `#34D399` |
-| Tag / keyword | Amber | `#FBBF24` |
-| Orphan (no links) | Slate (dim) | `#64748B` |
-| Highlighted (hover/active) | White-hot | `#FFFFFF` |
-| AI semantic link (later) | Violet | `#A78BFA` |
+| Page | Indigo | `#7C8CF8` |
+| Database | Teal | `#2DD4BF` |
+| Database row | Sky | `#38BDF8` |
+| Tag / keyword | Violet | `#A78BFA` |
+| Orphan (no links) | Slate (dim) | `#5B6573` |
+| Highlighted (hover) | White + colored ring | `#FFFFFF` |
 
-**Edges:** default `rgba(154,161,174,0.18)` (faint neutral). On hover-highlight, the
-focused node's edges brighten to `rgba(99,102,241,0.6)` and others dim to `0.05`.
+**Edges:** default `rgba(120,130,150,0.22)` (faint neutral). On hover the focused node's
+edges brighten to `rgba(124,140,248,0.7)` and others dim to `0.06`.
+
+A **minimap** (bottom-right) shows all nodes scaled down with a viewport box; click it to
+recenter the main view.
 
 ### 2.5 Light theme (secondary)
 | Token | Hex |
@@ -185,7 +190,8 @@ semantic names plus our extras:
 }
 ```
 
-**Custom utilities** also live in `globals.css`: `.glow-primary`, `.glow-cyan`,
-`.bg-observatory` (radial hero glow), `.bg-grid` (dotted texture), `.text-gradient`, and
-the entrance animations `.animate-rise` / `.animate-fade` / `.animate-float` (all respect
-`prefers-reduced-motion`).
+**Custom utilities** in `globals.css`: `.glow-primary` / `.glow-cyan` (subtle CTA glow) and
+the entrance animations `.animate-rise` / `.animate-fade` (respect `prefers-reduced-motion`).
+The old gradient utilities (`.bg-observatory`, `.bg-grid`, `.text-gradient`) were **removed**
+in favor of solid backgrounds — use `bg-background` for pages and the solid `#0b0d12` for the
+graph canvas.

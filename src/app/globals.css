@@ -181,30 +181,6 @@
   .glow-cyan {
     box-shadow: 0 0 24px rgba(34, 211, 238, 0.3);
   }
-  /* The "observatory" backdrop: faint radial light behind the graph/hero */
-  .bg-observatory {
-    background:
-      radial-gradient(
-        ellipse 80% 60% at 50% -10%,
-        rgba(99, 102, 241, 0.12),
-        transparent 70%
-      ),
-      var(--background);
-  }
-  /* Subtle dotted grid texture for atmosphere */
-  .bg-grid {
-    background-image: radial-gradient(
-      rgba(154, 161, 174, 0.08) 1px,
-      transparent 1px
-    );
-    background-size: 28px 28px;
-  }
-  .text-gradient {
-    background: linear-gradient(180deg, var(--foreground), #9aa1ae);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
 }
 
 /* ---------- Motion: orchestrated page-load reveals ---------- */
@@ -247,16 +223,6 @@
     opacity: 1;
   }
 }
-@keyframes ng-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
-}
-
 @layer utilities {
   .animate-rise {
     opacity: 0;
@@ -266,15 +232,11 @@
     opacity: 0;
     animation: ng-fade 0.9s ease forwards;
   }
-  .animate-float {
-    animation: ng-float 6s ease-in-out infinite;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-rise,
   .animate-fade,
-  .animate-float,
   .animate-rise * {
     animation: none !important;
     opacity: 1 !important;

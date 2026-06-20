@@ -62,6 +62,15 @@ Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 
 ## 🟩 Complete
 
+### 2026-06-20 (later)
+- ✅ `[P4]` **Visual redesign → professional/solid.** Removed the gradient "observatory"
+  backdrop, dotted grid, gradient text, and float animation across all screens (solid
+  `bg-background`; graph canvas solid `#0b0d12`). Nodes now solid-filled with a crisp dark
+  outline + cool palette (indigo/teal/sky/violet), glow/ring only on hover. DESIGN.md updated.
+- ✅ `[P4]` **Minimap** added (bottom-right of the graph): all nodes scaled down + a live
+  viewport box; click to recenter the main view.
+- ✅ `[P3]` Fixed sync crash: pinned Notion API to `2022-06-28` + hardened title parsing.
+
 ### 2026-06-20 (evening)
 - ✅ `[P4]` **The graph renders!** `react-force-graph-2d` canvas (`graph-canvas.tsx`): nodes
   sized by degree, colored by type + orphan color, glow, hover highlights node + neighbors
