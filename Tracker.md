@@ -19,23 +19,16 @@ Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 - 🔴 `[P2]` RLS isolation tests (user A cannot read user B) once policies exist
 
 ### Phase 3 — Notion Connect & Sync Engine
-- 🔴 `[P3]` Notion API client wrapper for **fetching** workspace data (paginated: pages,
-  databases, rows, block children) with Zod validation — `lib/notion.ts` currently only does OAuth
-- 🔴 `[P3]` Graph-build logic: pages/databases/rows → `nodes`
-- 🔴 `[P3]` Edge extraction: nesting, `@mentions`, relations → `edges` (target ≥95% coverage)
-- 🔴 `[P3]` Trigger.dev `initial-sync` job (idempotent, rate-limited, retryable)
-- 🔴 `[P3]` Stream/poll sync progress to client; write `sync_runs`
+- 🔴 `[P3]` Edge extraction: add `@mention` edges from block content (nesting + relations done)
+- 🟡 `[P3]` Move sync to a Trigger.dev background job (idempotent, rate-limited) — currently
+  synchronous in `/api/sync`, fine for now but will hit serverless timeouts on big workspaces
+- 🟡 `[P3]` Incremental sync (diff) + live progress streaming (currently full re-sync + toast)
 
 ### Phase 4 — The Graph View (hero)
-- 🔴 `[P4]` Integrate `react-force-graph` as client component (dynamic import, ssr:false)
-- 🔴 `[P4]` Map `GraphData = { nodes, links }` from Supabase
-- 🔴 `[P4]` Custom node painting: size by degree, color by type, glow (per `DESIGN.md`)
-- 🔴 `[P4]` Pan / zoom / drag tuned for smoothness; momentum; 60fps @ ~1k nodes
-- 🔴 `[P4]` Hover: highlight node + neighbors, dim rest; tooltip
-- 🔴 `[P4]` Click → side panel (title, type, connections, "Open in Notion")
-- 🔴 `[P4]` Level-of-detail labels (fade by zoom)
-- 🔴 `[P4]` Syncing/loading "constellation" skeleton + first-run coachmarks
-- 🔴 `[P4]` Performance pass: profile + verify fps targets up to ~5k nodes
+- 🔴 `[P4]` Click → side panel (title, type, connection count, "Open in Notion") — click
+  currently opens the Notion page directly
+- 🟡 `[P4]` Performance pass: profile + verify fps targets up to ~5k nodes
+- 🟡 `[P4]` First-run coachmarks (basic hint bar shipped)
 
 ### Phase 5 — Search, Filter & Re-Sync
 - 🔴 `[P5]` Command palette (⌘K) fuzzy search → camera fly-to-node
@@ -62,13 +55,24 @@ Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 ---
 
 ## 🟨 In Progress
-- 🔴 `[P3]` Notion **sync engine**: fetch the connected workspace (pages/databases/rows),
-  build `nodes` + extract `edges`, run it as a Trigger.dev job, write `sync_runs`. Connection
-  storage is done; next is reading the data and populating the graph tables.
+- _(nothing actively in progress — core product loop works end to end. Next candidates:
+  node side-panel on click, ⌘K search/filters (Phase 5), Trigger.dev background sync.)_
 
 ---
 
 ## 🟩 Complete
+
+### 2026-06-20 (evening)
+- ✅ `[P4]` **The graph renders!** `react-force-graph-2d` canvas (`graph-canvas.tsx`): nodes
+  sized by degree, colored by type + orphan color, glow, hover highlights node + neighbors
+  (dims rest), zoom-based labels, click opens the Notion page, pan/zoom/drag. `graph-view.tsx`
+  loads `/api/graph` and drives sync via **TanStack Query** (added `Providers`). `/graph` shows
+  empty state + "Sync my Notion" or the live graph + re-sync toolbar.
+- ✅ `[P3]` **Sync engine** (`lib/sync.ts`): paginated Notion `search`, builds `nodes`
+  (page/database/row, titles, urls, degree) and `edges` (parent nesting → `child`, relation
+  props → `relation`), full re-sync into Supabase, writes `sync_runs`. `/api/sync` (run) +
+  `/api/graph` (serve `GraphData`). **Verified end to end**: decrypts the real token, Notion
+  returns 146 objects.
 
 ### 2026-06-20
 - ✅ `[P3]` **Notion OAuth connect flow** (runtime-smoke-tested). `/api/notion/start` (CSRF
