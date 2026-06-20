@@ -30,8 +30,9 @@ type NotionObject = {
 };
 
 function richTextToPlain(rt: RichText[] | undefined): string {
-  return (rt ?? [])
-    .map((t) => t.plain_text)
+  if (!Array.isArray(rt)) return "";
+  return rt
+    .map((t) => t?.plain_text ?? "")
     .join("")
     .trim();
 }
@@ -134,7 +135,10 @@ export async function syncWorkspaceForUser(userId: string): Promise<SyncStats> {
   if (!connection) throw new Error("No Notion connection for this user");
 
   const token = decrypt(connection.access_token_encrypted);
-  const notion = new Client({ auth: token });
+  // Pin the classic API version: its response shapes (page title properties as
+  // rich-text arrays, databases as `database` objects) match what we parse below.
+  // The SDK v5 default is a newer version with a different shape.
+  const notion = new Client({ auth: token, notionVersion: "2022-06-28" });
 
   // 2) Record a running sync.
   const { data: run } = await supabaseAdmin
