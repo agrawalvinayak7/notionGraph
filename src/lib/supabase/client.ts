@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import type { Database } from "./database.types";
 
 /**
  * Browser Supabase client using the ANON key (respects Row-Level Security).
@@ -12,5 +13,5 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export function createSupabaseBrowserClient() {
-  return createClient(supabaseUrl, anonKey);
+  return createClient<Database>(supabaseUrl, anonKey);
 }

@@ -1,6 +1,13 @@
 # Schema Design — NotionGraph
 
-**Last updated:** 2026-06-19
+**Last updated:** 2026-06-20
+
+> ✅ **Status:** the 5 core tables below are **LIVE** in Supabase (migrations
+> `init_core_schema` → superseded by `reset_and_init_core_schema`, which first dropped the
+> abandoned earlier attempt's tables). RLS is **enabled** on all of them with **no policies
+> yet** (locked down; server uses the service-role key). Generated types live in
+> `src/lib/supabase/database.types.ts`. The `embeddings`/pgvector table (§2.6) is **not yet
+> created** — deferred to Phase 7.
 
 This is the **single source of truth** for the database. The graph product *is* this schema
 made visual, so accuracy here matters more than anywhere else.
@@ -111,7 +118,7 @@ active connection per user but the schema allows many.
 |--------|------|-------|
 | `id` | `uuid` PK | |
 | `user_id` | `uuid` FK → `users.id` | not null, `on delete cascade` |
-| `access_token_encrypted` | `bytea` | **encrypted at rest** (`lib/crypto.ts`); never store plaintext |
+| `access_token_encrypted` | `text` | **encrypted at rest** — base64 AES-256-GCM payload from `lib/crypto.ts`; never store plaintext |
 | `workspace_id` | `text` | Notion workspace id |
 | `workspace_name` | `text` | display name |
 | `bot_id` | `text` | Notion bot/integration id |

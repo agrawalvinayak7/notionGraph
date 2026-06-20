@@ -17,12 +17,9 @@ Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 - 🔴 `[P1]` Clerk → Supabase `users` sync (webhook or first-login upsert) — *needs Clerk + Supabase keys*
 
 ### Phase 2 — Supabase & Data Model
-- 🔴 `[P2]` Implement schema per `docs/SCHEMA.md` (keep doc + migration in sync)
-- 🔴 `[P2]` Migration: `users`, `notion_connections`, `nodes`, `edges`, `sync_runs`
-- 🔴 `[P2]` Enable + write RLS policies for every user-owned table
-- 🔴 `[P2]` RLS isolation tests (user A cannot read user B)
-- 🔴 `[P2]` Generate TypeScript types after schema (Supabase client modules already created)
-- 🔴 `[P2]` Clerk ↔ Supabase third-party auth so the browser client reads own rows under RLS
+- 🔴 `[P2]` Write per-user RLS **policies** (currently RLS-on/no-policy = locked) — pairs with
+  Clerk ↔ Supabase third-party auth so the browser client can read own rows under RLS
+- 🔴 `[P2]` RLS isolation tests (user A cannot read user B) once policies exist
 
 ### Phase 3 — Notion Connect & Sync Engine
 - 🔴 `[P3]` Register Notion public OAuth integration; set redirect URI
@@ -70,14 +67,19 @@ Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 ---
 
 ## 🟨 In Progress
-- 🔴 `[P2]` Apply the database schema + RLS to Supabase (tables from `docs/SCHEMA.md`) — code
-  plumbing is ready; next step writes the actual tables to the project.
+- 🔴 `[P1]` Clerk → Supabase `users` sync (create a `users` row on first authenticated visit) —
+  now unblocked: Clerk live + `users` table live.
 
 ---
 
 ## 🟩 Complete
 
 ### 2026-06-20
+- ✅ `[P2]` **Database schema is LIVE in Supabase.** Dropped the abandoned earlier attempt's 5
+  empty tables, created `users`/`notion_connections`/`nodes`/`edges`/`sync_runs` per
+  `SCHEMA.md` (UUIDs, checks, unique constraints, indexes), RLS enabled on all (locked, no
+  policies yet). Generated `database.types.ts`; both Supabase clients are now typed. Security
+  advisor: prior critical "RLS disabled" cleared.
 - ✅ `[P2]` Supabase client modules (`lib/supabase/admin.ts` service-role/server-only +
   `lib/supabase/client.ts` anon/browser) and `lib/crypto.ts` (AES-256-GCM token encryption,
   round-trip verified with the real key). Trigger.dev wired: `trigger.config.ts` + a

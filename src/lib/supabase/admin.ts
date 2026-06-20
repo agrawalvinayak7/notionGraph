@@ -1,5 +1,6 @@
 import "server-only";
 import { createClient } from "@supabase/supabase-js";
+import type { Database } from "./database.types";
 
 /**
  * Server-only Supabase client using the SERVICE ROLE key.
@@ -21,6 +22,10 @@ if (!supabaseUrl || !serviceRoleKey) {
   );
 }
 
-export const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey, {
-  auth: { persistSession: false, autoRefreshToken: false },
-});
+export const supabaseAdmin = createClient<Database>(
+  supabaseUrl,
+  serviceRoleKey,
+  {
+    auth: { persistSession: false, autoRefreshToken: false },
+  },
+);
