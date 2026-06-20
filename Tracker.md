@@ -21,8 +21,8 @@ Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 - 🔴 `[P2]` Migration: `users`, `notion_connections`, `nodes`, `edges`, `sync_runs`
 - 🔴 `[P2]` Enable + write RLS policies for every user-owned table
 - 🔴 `[P2]` RLS isolation tests (user A cannot read user B)
-- 🔴 `[P2]` Generate TypeScript types; create typed Supabase client
-- 🔴 `[P2]` Token encryption helper (`lib/crypto.ts`) for Notion tokens at rest
+- 🔴 `[P2]` Generate TypeScript types after schema (Supabase client modules already created)
+- 🔴 `[P2]` Clerk ↔ Supabase third-party auth so the browser client reads own rows under RLS
 
 ### Phase 3 — Notion Connect & Sync Engine
 - 🔴 `[P3]` Register Notion public OAuth integration; set redirect URI
@@ -70,14 +70,18 @@ Legend: `[P0]`–`[P6]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 ---
 
 ## 🟨 In Progress
-- 🔴 `[P2]` Wire Supabase client (browser + server/admin) and Trigger.dev config — next up,
-  keys are in `.env`.
+- 🔴 `[P2]` Apply the database schema + RLS to Supabase (tables from `docs/SCHEMA.md`) — code
+  plumbing is ready; next step writes the actual tables to the project.
 
 ---
 
 ## 🟩 Complete
 
 ### 2026-06-20
+- ✅ `[P2]` Supabase client modules (`lib/supabase/admin.ts` service-role/server-only +
+  `lib/supabase/client.ts` anon/browser) and `lib/crypto.ts` (AES-256-GCM token encryption,
+  round-trip verified with the real key). Trigger.dev wired: `trigger.config.ts` + a
+  `health-check` example task. Build + lint green.
 - ✅ `[P1]` **Clerk auth integrated and runtime-verified.** ClerkProvider (dark theme),
   `proxy.ts` gatekeeper protecting `/graph` `/settings` `/connect`, `/sign-in` + `/sign-up`
   pages, auth-aware site header + `UserButton`. Smoke test: logged-out `/graph` → 307 to
