@@ -30,14 +30,12 @@ Legend: `[P0]`–`[P7]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 - 🟡 `[P3]` Incremental sync (diff) + live progress streaming (currently full re-sync + toast)
 
 ### Phase 4 — The Graph View (hero)
-- 🔴 `[P4]` Click → side panel (title, type, connection count, "Open in Notion") — click
-  currently opens the Notion page directly
 - 🟡 `[P4]` Performance pass: profile + verify fps targets up to ~5k nodes
 - 🟡 `[P4]` First-run coachmarks (basic hint bar shipped)
 
 ### Phase 5 — Search, Filter & Re-Sync
-- 🔴 `[P5]` Command palette (⌘K) fuzzy search → camera fly-to-node
-- 🔴 `[P5]` Filters: node type, by database, orphans-only, depth/focus mode
+- 🟡 `[P5]` Extend filters: by specific database + depth/focus (N-hop neighborhood)
+  (node-type toggles + orphans done)
 - 🟡 `[P5]` Trigger.dev `incremental-sync` (diff add/update/remove) + schedule
 - 🟡 `[P5]` "Re-sync now" button, last-synced display, sync toasts + failure handling
 - 🟡 `[P5]` `/settings`: connection, sync history, disconnect, delete-my-data, theme toggle
@@ -66,6 +64,17 @@ Legend: `[P0]`–`[P7]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 ---
 
 ## 🟩 Complete
+
+### 2026-06-21
+- ✅ `[P4]` **Node side-panel**: clicking a node now selects it (white ring) and opens a panel
+  (top-left) with type chip, title, connection count, orphan badge, plus **Focus** (fly-to) and
+  **Open in Notion**. Background click deselects.
+- ✅ `[P5]` **⌘K search** (`graph-search.tsx`): command palette over all visible nodes
+  (hubs first), selecting one flies the camera to it and selects it. Toolbar Search button too.
+- ✅ `[P5]` **Filters** (`graph-filters.tsx`): popover to toggle node types + show/hide orphans;
+  the graph + search + counts all respect the filter (links to hidden nodes drop out).
+- ✅ `[P4]` Canvas refactored to `forwardRef` exposing `focusNode(id)`; hover/selection share
+  highlight logic.
 
 ### 2026-06-20 (later)
 - ✅ `[P4]` **Visual redesign → professional/solid.** Removed the gradient "observatory"
