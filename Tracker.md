@@ -38,7 +38,7 @@ Legend: `[P0]`–`[P7]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
   (node-type toggles + orphans done)
 - 🟡 `[P5]` Trigger.dev `incremental-sync` (diff add/update/remove) + schedule
 - 🟡 `[P5]` "Re-sync now" button, last-synced display, sync toasts + failure handling
-- 🟡 `[P5]` `/settings`: connection, sync history, disconnect, delete-my-data, theme toggle
+- 🟢 `[P5]` Optional light/dark theme toggle (app is dark-first by design; deferred)
 
 ### Phase 6 — Polish, Test & Ship
 - 🟡 `[P6]` Empty/error/edge-case states (USER_FLOW §7)
@@ -64,6 +64,13 @@ Legend: `[P0]`–`[P7]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 ---
 
 ## 🟩 Complete
+
+### 2026-06-22
+- ✅ `[P5]` **Settings page is real.** Shows live Notion connection (workspace, last-synced,
+  node count), **recent sync history** (status + stats per run), and account email. Danger
+  zone: **"Disconnect & delete my data"** (two-step confirm) → `/api/notion/disconnect` wipes
+  connection + nodes + edges + sync_runs (account kept), redirects to `/connect`. Reusable
+  `ConfirmAction` client component.
 
 ### 2026-06-21
 - ✅ `[P4]` **Node side-panel**: clicking a node now selects it (white ring) and opens a panel
