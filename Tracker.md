@@ -47,6 +47,9 @@ Legend: `[P0]`–`[P7]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 - 🟡 `[P6]` Vitest unit tests (graph-build/edge-extraction) + Playwright e2e (connect→graph)
 - 🟡 `[P6]` Lighthouse ≥90 on landing; final perf check
 - 🟡 `[P6]` Deploy to Vercel; wire env; live demo URL
+  - Switch Clerk dev → **production instance** (`pk_live_`/`sk_live_`, add Clerk DNS records,
+    set keys in Vercel env). Dev keys (`pk_test_`) show a "development mode" warning + have limits.
+  - Update `NOTION_REDIRECT_URI` + Notion integration redirect URIs to the deployed domain.
 - 🟢 `[P6]` Docs/README pass; record demo GIF
 
 ### Phase 7 — AI Semantic Links (later / Could-have)
