@@ -124,7 +124,10 @@ export type SyncStats = {
  * Builds the graph from parent nesting (child edges) and relation properties
  * (relation edges). Inline @mention edges are a later enhancement.
  */
-export async function syncWorkspaceForUser(userId: string): Promise<SyncStats> {
+export async function syncWorkspaceForUser(
+  userId: string,
+  existingRunId?: string,
+): Promise<SyncStats> {
   // 1) Load + decrypt the user's Notion token.
   const { data: connection, error: connErr } = await supabaseAdmin
     .from("notion_connections")
@@ -140,17 +143,27 @@ export async function syncWorkspaceForUser(userId: string): Promise<SyncStats> {
   // The SDK v5 default is a newer version with a different shape.
   const notion = new Client({ auth: token, notionVersion: "2022-06-28" });
 
-  // 2) Record a running sync.
-  const { data: run } = await supabaseAdmin
-    .from("sync_runs")
-    .insert({
-      user_id: userId,
-      connection_id: connection.id,
-      status: "running",
-      kind: "initial",
-    })
-    .select("id")
-    .single();
+  // 2) Mark a sync as running. The caller may have pre-created a queued run
+  //    (background job path) — reuse it so its id can be polled for status.
+  let runId = existingRunId ?? null;
+  if (runId) {
+    await supabaseAdmin
+      .from("sync_runs")
+      .update({ status: "running", connection_id: connection.id })
+      .eq("id", runId);
+  } else {
+    const { data: created } = await supabaseAdmin
+      .from("sync_runs")
+      .insert({
+        user_id: userId,
+        connection_id: connection.id,
+        status: "running",
+        kind: "initial",
+      })
+      .select("id")
+      .single();
+    runId = created?.id ?? null;
+  }
 
   try {
     // 3) Fetch everything.
@@ -233,7 +246,7 @@ export async function syncWorkspaceForUser(userId: string): Promise<SyncStats> {
     stats.edges = edges.length;
 
     // 7) Mark the run + connection done.
-    if (run) {
+    if (runId) {
       await supabaseAdmin
         .from("sync_runs")
         .update({
@@ -241,7 +254,7 @@ export async function syncWorkspaceForUser(userId: string): Promise<SyncStats> {
           stats,
           finished_at: new Date().toISOString(),
         })
-        .eq("id", run.id);
+        .eq("id", runId);
     }
     await supabaseAdmin
       .from("notion_connections")
@@ -251,7 +264,7 @@ export async function syncWorkspaceForUser(userId: string): Promise<SyncStats> {
     return stats;
   } catch (err) {
     const message = err instanceof Error ? err.message : "unknown error";
-    if (run) {
+    if (runId) {
       await supabaseAdmin
         .from("sync_runs")
         .update({
@@ -259,7 +272,7 @@ export async function syncWorkspaceForUser(userId: string): Promise<SyncStats> {
           error: message,
           finished_at: new Date().toISOString(),
         })
-        .eq("id", run.id);
+        .eq("id", runId);
     }
     throw err;
   }

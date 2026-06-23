@@ -25,9 +25,8 @@ Legend: `[P0]`–`[P7]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 
 ### Phase 3 — Notion Connect & Sync Engine
 - 🔴 `[P3]` Edge extraction: add `@mention` edges from block content (nesting + relations done)
-- 🟡 `[P3]` Move sync to a Trigger.dev background job (idempotent, rate-limited) — currently
-  synchronous in `/api/sync`, fine for now but will hit serverless timeouts on big workspaces
-- 🟡 `[P3]` Incremental sync (diff) + live progress streaming (currently full re-sync + toast)
+- 🟡 `[P3]` Incremental sync (diff add/update/remove) — currently full re-sync each time
+- 🟡 `[P3]` Live progress (counts) during sync — currently a queued→done poll + toast
 
 ### Phase 4 — The Graph View (hero)
 - 🟡 `[P4]` Performance pass: profile + verify fps targets up to ~5k nodes
@@ -67,6 +66,14 @@ Legend: `[P0]`–`[P7]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 ---
 
 ## 🟩 Complete
+
+### 2026-06-22 (later)
+- ✅ `[P3]` **Background sync via Trigger.dev** (deploy-critical — avoids serverless timeouts).
+  `src/trigger/sync.ts` `sync-workspace` task runs `syncWorkspaceForUser`. `/api/sync` now
+  pre-creates a `queued` `sync_run`, triggers the task, returns its id; `/api/sync/status?id=`
+  reports progress; the graph view starts the job then polls until done. `syncWorkspaceForUser`
+  refactored to reuse a pre-created run id. **Local note:** needs `npx trigger.dev@latest dev`
+  running (build + lint verified; live run is the worker's first job).
 
 ### 2026-06-22
 - ✅ `[P5]` **Settings page is real.** Shows live Notion connection (workspace, last-synced,

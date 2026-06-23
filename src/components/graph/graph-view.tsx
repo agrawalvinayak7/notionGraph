@@ -22,11 +22,35 @@ async function fetchGraph(): Promise<GraphData> {
   if (!res.ok) throw new Error("Failed to load graph");
   return res.json();
 }
-async function runSyncRequest(): Promise<{ stats: SyncStats }> {
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+type SyncStatus = {
+  status: string;
+  stats?: SyncStats | null;
+  error?: string | null;
+};
+
+// Starts the background sync job, then polls its status until it finishes.
+async function runSyncRequest(): Promise<SyncStats> {
   const res = await fetch("/api/sync", { method: "POST" });
   const body = await res.json();
-  if (!res.ok) throw new Error(body.error ?? "Sync failed");
-  return body;
+  if (!res.ok) throw new Error(body.error ?? "Failed to start sync");
+  const runId = body.runId as string;
+
+  for (let i = 0; i < 150; i++) {
+    await sleep(2000);
+    const st = (await fetch(`/api/sync/status?id=${runId}`, {
+      cache: "no-store",
+    }).then((r) => r.json())) as SyncStatus;
+    if (st.status === "success") {
+      return (
+        st.stats ?? { pages: 0, databases: 0, rows: 0, nodes: 0, edges: 0 }
+      );
+    }
+    if (st.status === "failed") throw new Error(st.error ?? "Sync failed");
+  }
+  throw new Error(
+    "Sync is still queued. Locally, make sure the Trigger.dev worker is running (npx trigger.dev@latest dev).",
+  );
 }
 
 type LinkEnd = string | { id: string };
@@ -46,8 +70,9 @@ export function GraphView() {
 
   const sync = useMutation({
     mutationFn: runSyncRequest,
-    onMutate: () => toast.loading("Syncing your Notion…", { id: "sync" }),
-    onSuccess: ({ stats }) => {
+    onMutate: () =>
+      toast.loading("Syncing your Notion in the background…", { id: "sync" }),
+    onSuccess: (stats) => {
       toast.success(
         `Synced ${stats.nodes} pages and ${stats.edges} connections.`,
         { id: "sync" },
