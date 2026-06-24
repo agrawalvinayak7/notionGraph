@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import {
+  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -36,31 +37,33 @@ export function GraphSearch({
       title="Search nodes"
       description="Find a page or database in your graph"
     >
-      <CommandInput placeholder="Search pages, databases…" />
-      <CommandList>
-        <CommandEmpty>No matching nodes.</CommandEmpty>
-        <CommandGroup heading={`${nodes.length} nodes`}>
-          {sorted.map((n) => (
-            <CommandItem
-              key={n.id}
-              value={`${n.title} ${n.id}`}
-              onSelect={() => {
-                onSelect(n.id);
-                onOpenChange(false);
-              }}
-            >
-              <span
-                className="size-2 shrink-0 rounded-full"
-                style={{ backgroundColor: colorFor(n) }}
-              />
-              <span className="truncate">{n.title}</span>
-              <span className="text-muted-foreground ml-auto font-mono text-xs">
-                {n.degree}
-              </span>
-            </CommandItem>
-          ))}
-        </CommandGroup>
-      </CommandList>
+      <Command>
+        <CommandInput placeholder="Search pages, databases…" />
+        <CommandList>
+          <CommandEmpty>No matching nodes.</CommandEmpty>
+          <CommandGroup heading={`${nodes.length} nodes`}>
+            {sorted.map((n) => (
+              <CommandItem
+                key={n.id}
+                value={`${n.title} ${n.id}`}
+                onSelect={() => {
+                  onSelect(n.id);
+                  onOpenChange(false);
+                }}
+              >
+                <span
+                  className="size-2 shrink-0 rounded-full"
+                  style={{ backgroundColor: colorFor(n) }}
+                />
+                <span className="truncate">{n.title}</span>
+                <span className="text-muted-foreground ml-auto font-mono text-xs">
+                  {n.degree}
+                </span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </CommandList>
+      </Command>
     </CommandDialog>
   );
 }

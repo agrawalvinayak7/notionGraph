@@ -67,13 +67,18 @@ Legend: `[P0]`–`[P7]` = roadmap phase (see `docs/ROADMAP.md`). Priority: 🔴 
 
 ## 🟩 Complete
 
-### 2026-06-22 (later)
-- ✅ `[P3]` **Background sync via Trigger.dev** (deploy-critical — avoids serverless timeouts).
-  `src/trigger/sync.ts` `sync-workspace` task runs `syncWorkspaceForUser`. `/api/sync` now
-  pre-creates a `queued` `sync_run`, triggers the task, returns its id; `/api/sync/status?id=`
-  reports progress; the graph view starts the job then polls until done. `syncWorkspaceForUser`
-  refactored to reuse a pre-created run id. **Local note:** needs `npx trigger.dev@latest dev`
-  running (build + lint verified; live run is the worker's first job).
+### 2026-06-24
+- ✅ Fixed **⌘K crash** (`Cannot read 'subscribe'`): this shadcn `CommandDialog` doesn't wrap
+  children in `<Command>`, so `CommandInput` had no cmdk context — wrapped the palette in
+  `<Command>` in `graph-search.tsx`.
+- ✅ **Reverted sync to synchronous** (`/api/sync` runs `syncWorkspaceForUser` inline) — the
+  Trigger.dev background path required the worker running locally and added latency that made
+  small syncs feel slow / hang. The `sync-workspace` task + run-id reuse stay in the codebase
+  as the **deploy / large-workspace option** (`src/trigger/sync.ts`); removed `/api/sync/status`.
+
+### 2026-06-22 (background-sync attempt — now the deploy-time option, not the default path)
+- ◻️ `[P3]` Built Trigger.dev `sync-workspace` task + run-id reuse in `syncWorkspaceForUser`.
+  Kept for deploy/large workspaces; **app currently syncs synchronously** (see 2026-06-24).
 
 ### 2026-06-22
 - ✅ `[P5]` **Settings page is real.** Shows live Notion connection (workspace, last-synced,
